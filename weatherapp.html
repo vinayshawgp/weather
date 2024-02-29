@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            outline: none;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .con {
+            width: 100%;
+            height: 100vh;
+            background: url("backgroundmain.jpg") ;
+            background-size: 100% 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+
+        }
+
+        .maincon {
+
+
+
+            width: 70%;
+            height: 60%;
+            background: transparent;
+            
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+
+        }
+
+        .mainlocation {
+            width: 30%;
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 10px;
+
+            
+        }
+
+        .temp {
+            width: 30%;
+            height: 50%;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .mainlocation div {
+            width: 90%;
+            height: 20%;
+
+            border: 1px solid gray;
+        }
+
+        .location input {
+            width: 100%;
+            height: 100%;
+        }
+
+        .temp div {
+            width: 90%;
+            height: 30%;
+            border: 2px solid gray;
+        }
+
+        .minmaxtemp {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap:15px;
+            border: none;
+        }
+
+        .minmaxtemp div {
+            width: 40%;
+            height: 80%;
+            color:aqua;
+            border: 2px solid #f51424;
+        }
+
+        .date {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+        .livetemp{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            
+            color:rgb(43, 116, 226);
+        
+        }
+        .mintemp{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color:lightgray;
+        
+        }
+        .maxtemp{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color:lightgray;
+        
+        }
+        .feelslike{
+            
+            width:25%;
+            height:50%;
+            display: flex;
+            
+            align-items: center;
+            gap:5px;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .feelslike div{
+            text-align: center;
+            color:palevioletred;
+            width:100%;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border:2px solid gray;
+            height:20%;
+        }
+        @media screen and (min-width:400px) and (max-width:700px) {
+            .maincon{
+                height: 80%;
+                flex-direction: column;
+                font-size: 18px;
+            }
+            .mainlocation,.feelslike,.temp{
+                width:60%;
+            }
+            
+        }
+        @media screen and (max-width:400px){
+            .maincon{
+                height: 80%;
+                flex-direction: column;
+                font-size: 18px;
+            }
+            .mainlocation,.feelslike,.temp{
+                width:80%;
+                
+            }
+            .mainlocation div{
+                font-size: 18px;
+            }
+            .feelslike div{
+                font-size: 18px;
+            }
+            .temp div{
+                font-size: 18px;
+            }
+            .minmaxtemp div{
+                font-size: 15px;
+            }
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="con">
+        <div class="maincon">
+            <div class="mainlocation">
+
+                <div class="location">
+                    <input type="text" placeholder="Enter Location"/>
+                </div>
+                <button onclick="getTemp()">getWeather</button>
+                <div class="date"></div>
+            </div>
+        <div class="feelslike">
+            <div class="city" style="background-color: rgb(180, 172, 160,0.9);">city</div>
+            <div class="feels">feels</div>
+            <div class="visibility">visibility</div>
+        </div>
+            
+            <div class="temp">
+                
+                <div class="livetemp">
+                    Temp
+
+                </div>
+                <div class="minmaxtemp" style="border: none;">
+                    <div class="mintemp">minm temp</div>
+                    <div class="maxtemp">max temp</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        let d = new Date()
+        document.getElementsByClassName("date")[0].innerHTML = d.toLocaleDateString()
+        
+        function getTemp(){
+            title = document.getElementsByTagName("input")[0].value
+        
+
+        
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${title}&units=metric&appid=eedd52cc943dd9174f2c65178d154bdd`).then((res) => res.json()).then((data)=>{
+            console.log(data)
+            document.getElementsByClassName("livetemp")[0].innerHTML=data.main.temp
+            document.getElementsByClassName("mintemp")[0].innerHTML=data.main.temp_min
+            document.getElementsByClassName("maxtemp")[0].innerHTML=data.main.temp_max
+            document.getElementsByClassName("city")[0].innerHTML=title
+            document.getElementsByClassName("feels")[0].innerHTML="feels like &nbsp;"+data.main.feels_like
+            document.getElementsByClassName("visibility")[0].innerHTML="vis: &nbsp;"+data.visibility
+
+            
+            
+            
+        })}
+
+    </script>
+</body>
+
+</html>
